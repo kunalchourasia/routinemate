@@ -45,31 +45,19 @@ class ApiService {
 
   // Household methods
   async createHousehold(form: CreateHouseholdForm): Promise<{ data: Household | null; error: any }> {
-    const { user } = await this.getCurrentUser();
-    if (!user) return { data: null, error: 'User not authenticated' };
-
-    const { data, error } = await supabase
-      .from('households')
-      .insert({
-        name: form.name,
-        description: form.description,
-        created_by: user.id
-      })
-      .select()
-      .single();
-
-    if (error) return { data: null, error };
-
-    // Add creator as admin member
-    await supabase
-      .from('household_members')
-      .insert({
-        household_id: data.id,
-        user_id: user.id,
-        role: 'admin'
+    try {
+      // Use Supabase's rpc function to create household with proper auth handling
+      const { data, error } = await supabase.rpc('create_household', {
+        household_name: form.name,
+        household_description: form.description
       });
 
-    return { data, error: null };
+      if (error) return { data: null, error };
+      return { data, error: null };
+    } catch (error) {
+      console.error('Error in createHousehold:', error);
+      return { data: null, error };
+    }
   }
 
   async getUserHouseholds(): Promise<{ data: Household[] | null; error: any }> {

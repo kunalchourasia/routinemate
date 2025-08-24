@@ -12,6 +12,8 @@ import HouseholdScreen from '../screens/HouseholdScreen';
 import TaskDetailsScreen from '../screens/TaskDetailsScreen';
 import CreateTaskScreen from '../screens/CreateTaskScreen';
 import HouseholdMembersScreen from '../screens/HouseholdMembersScreen';
+import CreateHouseholdScreen from '../screens/CreateHouseholdScreen';
+import InviteUserScreen from '../screens/InviteUserScreen';
 import TestScreen from '../screens/TestScreen';
 import LoadingScreen from '../components/LoadingScreen';
 import UserAvatar from '../components/UserAvatar';
@@ -97,6 +99,16 @@ function AppNavigatorContent() {
             name="HouseholdMembers"
             component={HouseholdMembersScreen}
             options={{ title: 'Household Members' }}
+          />
+          <Stack.Screen
+            name="CreateHousehold"
+            component={CreateHouseholdScreen}
+            options={{ title: 'Create Household' }}
+          />
+          <Stack.Screen
+            name="InviteUser"
+            component={InviteUserScreen}
+            options={{ title: 'Invite User' }}
           />
           <Stack.Screen
             name="Test"

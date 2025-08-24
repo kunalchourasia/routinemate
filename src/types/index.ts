@@ -131,6 +131,8 @@ export type RootStackParamList = {
   TaskDetails: { taskId: string };
   CreateTask: { householdId: string };
   HouseholdMembers: { householdId: string };
+  CreateHousehold: undefined;
+  InviteUser: { householdId: string };
   Test: undefined;
   Loading: undefined;
 };

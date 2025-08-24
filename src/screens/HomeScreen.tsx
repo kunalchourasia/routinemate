@@ -71,10 +71,7 @@ export default function HomeScreen({ navigation }: Props) {
       {/* Create Household Button */}
       <TouchableOpacity
         style={styles.createButton}
-        onPress={() => {
-          // TODO: Navigate to create household screen
-          Alert.alert('Coming Soon', 'Create household feature coming soon!');
-        }}
+        onPress={() => navigation.navigate('CreateHousehold')}
       >
         <Text style={styles.createButtonText}>+ Create Household</Text>
       </TouchableOpacity>
