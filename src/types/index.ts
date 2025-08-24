@@ -36,6 +36,25 @@ export interface Task {
   description?: string;
   is_recurring: boolean;
   recurrence_rule_id?: string;
+  priority: 'low' | 'medium' | 'high' | 'urgent';
+  estimated_duration?: number; // in minutes
+  created_by: string;
+  created_at: string;
+  updated_at: string;
+}
+
+// Task template types
+export interface TaskTemplate {
+  id: string;
+  household_id: string;
+  name: string;
+  description?: string;
+  recurrence_rule_id: string;
+  recurrence_rule?: RecurrenceRule; // Populated when fetched with relations
+  default_assignee?: string;
+  round_robin_users?: string[];
+  assignment_strategy: 'single' | 'round_robin' | 'load_balance';
+  is_active: boolean;
   created_by: string;
   created_at: string;
   updated_at: string;
@@ -44,11 +63,15 @@ export interface Task {
 // Recurrence rule types
 export interface RecurrenceRule {
   id: string;
-  frequency: 'daily' | 'weekly' | 'monthly';
+  frequency: 'daily' | 'weekly' | 'monthly' | 'custom';
   interval: number; // e.g., every 2 weeks
   days_of_week?: number[]; // 0-6, Sunday = 0
   day_of_month?: number; // 1-31
+  week_of_month?: number; // 1-5, for monthly recurrences
+  day_of_week?: number; // 0-6, for monthly recurrences
+  month_of_year?: number; // 0-11, for yearly recurrences
   end_date?: string;
+  occurrences_count?: number; // Maximum number of occurrences
   created_at: string;
   updated_at: string;
 }
@@ -78,6 +101,18 @@ export interface RoundRobinAssignment {
   updated_at: string;
 }
 
+// Round-robin tracking types
+export interface RoundRobinTracking {
+  id: string;
+  template_id: string;
+  household_id: string;
+  user_ids: string[];
+  current_index: number;
+  last_assigned_at?: string;
+  created_at: string;
+  updated_at: string;
+}
+
 // Task completion history
 export interface TaskHistory {
   id: string;
@@ -96,6 +131,8 @@ export type RootStackParamList = {
   TaskDetails: { taskId: string };
   CreateTask: { householdId: string };
   HouseholdMembers: { householdId: string };
+  Test: undefined;
+  Loading: undefined;
 };
 
 // Form types
